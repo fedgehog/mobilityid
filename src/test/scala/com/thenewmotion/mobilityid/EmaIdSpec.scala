@@ -60,9 +60,10 @@ class EmaIdSpec extends Specification {
       EmaId("NL", "TNM", "012345678").toDinString must beNone
     }
 
-    "be unapplicable" in {
-      EmaId("NL", "TNM","000122045") match {
-        case EmaId(c, p, i, ch) => (c, p, i, ch) mustEqual ("NL", "TNM", "000122045", 'U')
+    "support parts extraction for pattern matching" in {
+      EmaId("NL", "TNM", "000122045") match {
+        case EmaId("NL", "TNM", _, 'U') => ok
+        case other => ko("broken pattern matching")
       }
     }
 
